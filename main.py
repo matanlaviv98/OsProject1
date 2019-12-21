@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-
+from kivy.properties import ObjectProperty
 
 
 class GUI(App):
@@ -11,8 +11,10 @@ class WindowManager(ScreenManager):
     """ manage transitions between screens and other properties """
     pass
 class MainScreen(Screen):
-    pass
-
+    def __init__(self, **kwargs):
+        # IDs for kv file widgets and needed values
+        super(Screen, self).__init__(**kwargs)
+        self.cpath= ObjectProperty(None)
 
 
 

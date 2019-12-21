@@ -1,8 +1,27 @@
 WindowManager:
     MainScreen:
 
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+cpath : cpath
+<MyGrid@GridLayout+BackgroundColor>
+<MyFileChooser@FileChooser+BackgroundColor>
 <MainScreen>:
-    FileChooser:
-        id: fc
-        FileChooserListLayout
-        
+    MyGrid:
+        cols: 2
+        rows: 2
+        background_color: 0,0,0,1
+        MyFileChooser:
+            background_color: 0,0,0,1
+            id: filechooser
+            path : cpath
+            multiselect: True
+            pos_hint : {"top":1 ,"left":1}
+            size_hint: 0.7,0.8
+            FileChooserListLayout

@@ -9,19 +9,69 @@ WindowManager:
         Rectangle:
             size: self.size
             pos: self.pos
-cpath : cpath
-<MyGrid@GridLayout+BackgroundColor>
-<MyFileChooser@FileChooser+BackgroundColor>
+<submitButton@Button>:
+    size_hint_x:0.2
+    text:"submit"
+<MyLayout@FloatLayout+BackgroundColor>
+<MyFileChooser@FileChooserListView+BackgroundColor>
 <MainScreen>:
-    MyGrid:
-        cols: 2
+    name :"main"
+    path_in:path_in
+    filter_in:filter_in
+    filechooser:filechooser
+    in_selected:in_selected
+    MyLayout:
         rows: 2
+        cols:2
         background_color: 0,0,0,1
-        MyFileChooser:
-            background_color: 0,0,0,1
-            id: filechooser
-            path : cpath
-            multiselect: True
-            pos_hint : {"top":1 ,"left":1}
-            size_hint: 0.7,0.8
-            FileChooserListLayout
+        BoxLayout:
+            pos_hint: {"top":1}
+            size_hint: 0.6,0.7
+            MyFileChooser:
+                id: filechooser
+                multiselect: True
+                dirselect: True
+                size_hint:1,1
+                background_color: 0,0,0,1
+                pos_hint : {"top":1 ,"left":1}
+        GridLayout:
+            cols:1
+            pos_hint:{"right":1,"top":1}
+            size_hint: 0.4,0.7
+            spacing: 15
+            padding: 15
+            Button:
+                text: "A"
+            Button:
+                text: "B"
+            Button:
+                text: "C"
+        GridLayout:
+            cols:3
+            padding: 10
+            spacing : 10
+            row_force_default:True
+            row_default_height:40
+            size_hint: 1,0.3
+            Label:
+                size_hint_x:0.1
+                text: "path:"
+            TextInput:
+                id : path_in
+                text : filechooser.path
+            submitButton:
+                on_release: root.insert_path()
+            Label:
+                size_hint_x:0.1
+                text: "filter:"
+            TextInput:
+                id: filter_in
+            submitButton:
+                on_release: root.insert_filter()
+            Label:
+                size_hint_x:0.1
+                text: "selected:"
+            TextInput:
+                id : in_selected
+            submitButton:
+                on_release: root.insert_selected()

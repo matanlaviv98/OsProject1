@@ -34,6 +34,7 @@ WindowManager:
                 size_hint:1,1
                 background_color: 0,0,0,1
                 pos_hint : {"top":1 ,"left":1}
+                on_submit : root.update_selected()
         GridLayout:
             cols:1
             pos_hint:{"right":1,"top":1}

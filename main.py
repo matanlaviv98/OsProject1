@@ -36,7 +36,7 @@ class MainScreen(Screen):
         if self.filter_in.text=="":
             self.filechooser.filters=[]
         else:
-            self.filechooser.filters=[self.filter_in.text]
+            self.filechooser.filters=["*"+self.filter_in.text+"*"]
     def insert_selected(self):
         try:
             l = eval(self.in_selected.text)
@@ -46,9 +46,10 @@ class MainScreen(Screen):
                 self.in_selected.text="input is invalid!"
         except:
             self.in_selected.text="input is invalid!"
-    #def update_selected(self):
+    def update_selected(self):
         #updates the selected files textbox.
-        #self.in_selected.text=self.filechooser.selection
+        self.in_selected.text=self.filechooser.selection
+        #self.filechooser._update_files()
 def main():
     pass
 

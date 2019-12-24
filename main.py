@@ -213,6 +213,5 @@ class MainScreen(Screen):
         if re.findall(self.filter_in.text,name) !=[]:
             return True
         return False
-
 if __name__ == '__main__':
     GUI().run()

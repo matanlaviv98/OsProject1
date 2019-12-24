@@ -14,6 +14,23 @@ WindowManager:
     text:"submit"
 <MyLayout@FloatLayout+BackgroundColor>
 <MyFileChooser@FileChooserListView+BackgroundColor>
+<CheckDeletePopUp>:
+    GridLayout:
+        Label:
+            pos_hint: None,None
+            text : "Please confirm:"
+        GridLayout:
+            pos_hint: None,None
+            padding:10
+            spacing:10
+            cols: 2
+            Button:
+                size : root.size
+                text : "Agree to delete"
+                on_release: root.Delete()
+            Button:
+                text : "Cancel"
+                on_release:root.dismiss()
 <MainScreen>:
     name :"main"
     path_in:path_in

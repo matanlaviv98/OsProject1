@@ -2,6 +2,8 @@ from kivy.app import App
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty
+from kivy.uix.widget import Widget
+from kivy.uix.popup import Popup
 import os
 from shutil import copyfile
 
@@ -16,6 +18,8 @@ class WindowManager(ScreenManager):
 #self.filechooser.selection -> list of selected files\dirs
 
 
+class CheckDeletePopUp(Widget):
+    pass
 
 class MainScreen(Screen):
     def __init__(self, **kwargs):
@@ -46,12 +50,14 @@ class MainScreen(Screen):
             self.path_in.text="path does'nt exist!"
     def insert_filter(self):
         #uses kivy filechooser filter.
+        print self.filechooser.files
         if self.filter_in.text=="":
             #if its blank, there is no fiter
             self.filechooser.filters=[]
         else:
             # the character '*' represent all cheracters
             self.filechooser.filters=["*"+self.filter_in.text+"*"]
+        print "\n"*10+str(self.filechooser.files)
     def insert_selected(self):
         ################################################################
         #insert files in the selection textbox into filechooser list   #
@@ -68,12 +74,13 @@ class MainScreen(Screen):
         for fileText in filesList:
             #the strip method removes any whitespace character form the edges.
             fileText=fileText.strip()
-            if (not os.path.isfile(self.filechooser.path + fileText)):
-                self.in_selected.text="invalid input. "+fileText+" doesn't exist"
+            fullpath=self.filechooser.path +'\\'+ fileText
+            if (not os.path.isfile(fullpath)):
+                self.in_selected.text="invalid input. \""+fullpath
+                self.in_selected.text+="\" doesn't exist"
                 return False
             collection.append(unicode(self.filechooser.path +fileText))
             #selection is a list of unicodes
-        self.filechooser.selection=collection
 
 
     def update_selected(self):
@@ -88,8 +95,9 @@ class MainScreen(Screen):
         if collection[0]==self.filechooser.path:collection=collection[1:]
         for word in collection:#collection of chosen files
             #remove the path from the files names.
-            if word[0]=='\\' or word[0]=='/':word=word[1:]  #"\\" and "/" can stand for "root"
-            filesView+=word.replace(self.filechooser.path,"") + " , "
+            if ((word[0]=='\\') or (word[0]=='/')):
+                word=word[1:]  #"\\" and "/" can stand for "root"
+            filesView+=word.replace(self.filechooser.path+'\\',"") + " , "
         filesView=filesView[:-3]#fix of the lest " , " character
         self.in_selected.text=filesView #insert the text to the textbox
 
@@ -137,7 +145,6 @@ class MainScreen(Screen):
             i = 0
             index=path.rfind('\\')+1
             #new file full path (including the prefix)
-
             npath=path[:index] + prefix + path[index:]
             if (os.path.isfile(npath)):
                 #in case it's occupied. add (0)
@@ -180,10 +187,12 @@ class MainScreen(Screen):
                     npath+="("+str(i)+")"
             copyfile(path,npath)
         self.filechooser._update_files()    #refresh the listview
-        #note: should go to the new path or not ?
     def CheckDelete(self):
-        pass
-    #implement popupwindow and then call Delete()
+        #confirm that the user want to delete the selected files.
+        show = CheckDeletePopUp()
+        popUpWindow=Popup(title="Confirmation",content=show,
+        size_hint=(None,None),size=(500,300))
+        popUpWindow.open()
     def Delete(self):
         pass
 

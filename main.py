@@ -178,11 +178,13 @@ class MainScreen(Screen):
             #if occupied
             if (os.path.isfile(npath)):
                 dotindex=npath.rfind('.')
+                #fix the name with "(0)".
                 npath=npath[:dotindex] + "("+str(i)+")" +npath[dotindex:]
                 #if occupied
                 while (os.path.isfile(npath)):
                     #replace older fix
                     i+=1
+                    #fix the name with the next "(i)".
                     npath=npath[:npath.rfind('(')]+"("+str(i)+npath[
                     npath.rfind(')'):]
             copyfile(path,npath)

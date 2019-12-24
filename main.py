@@ -21,9 +21,9 @@ class MainScreen(Screen):
     def __init__(self, **kwargs):
         # IDs for kv file widgets and needed values
         super(Screen, self).__init__(**kwargs)#init screen
-        #########################################################
-        #objects reffering to id's of widgets in the GUI.kv file#
-        #########################################################
+        #############################################################
+        ###objects reffering to id's of widgets in the GUI.kv file###
+        #############################################################
         self.path_in=ObjectProperty(None)
         self.filter_in=ObjectProperty(None)
         self.filechooser=ObjectProperty(None)

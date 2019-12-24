@@ -93,14 +93,15 @@ class MainScreen(Screen):
         if collection[0]==self.filechooser.path:collection=collection[1:]
         for word in collection:#collection of chosen files
             #remove the path from the files names.
+            word=word.replace(self.filechooser.path,"")
             if ((word[0]=='\\') or (word[0]=='/')):
                 word=word[1:]  #"\\" and "/" can stand for "root"
-            filesView+=word.replace(self.filechooser.path+'\\',"") + " , "
+            filesView+=word +" , "
         filesView=filesView[:-3]#fix of the lest " , " character
         self.in_selected.text=filesView #insert the text to the textbox
 
 
-    def ChangeExtansion(self):
+    def Changeextension(self):
     #changes the whole extensions of all selected files
         collection =self.filechooser.selection
         dirpath=self.filechooser.path
@@ -127,12 +128,12 @@ class MainScreen(Screen):
             collection[collection.index(pathbackup)]=path+extension
         self.filechooser._update_files()    #refresh the listview
         self.filechooser.path=dirpath
-        self.in_changeExtension.text="please insert new extansion here"
+        self.in_changeExtension.text="please insert new extension here"
         self.update_selected()
 
 
     def AddPrefix(self):
-        #add extansion to all selected files
+        #add extension to all selected files
         collection =self.filechooser.selection
         dirpath=self.filechooser.path
         if len(collection)==0:return

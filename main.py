@@ -177,13 +177,14 @@ class MainScreen(Screen):
             i = 0
             #if occupied
             if (os.path.isfile(npath)):
-                npath+="("+str(i)+")"
+                dotindex=npath.rfind('.')
+                npath=npath[:dotindex] + "("+str(i)+")" +npath[dotindex:]
                 #if occupied
                 while (os.path.isfile(npath)):
                     #replace older fix
-                    npath=npath[:npath.rfind('(')]
                     i+=1
-                    npath+="("+str(i)+")"
+                    npath=npath[:npath.rfind('(')]+"("+str(i)+npath[
+                    npath.rfind(')'):]
             copyfile(path,npath)
         self.filechooser._update_files()    #refresh the listview
     def CheckDelete(self):

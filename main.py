@@ -127,7 +127,7 @@ class MainScreen(Screen):
             #update change in collection
             collection[collection.index(pathbackup)]=path+extension
         self.filechooser._update_files()    #refresh the listview
-        self.filechooser.path=dirpath
+        self.filechooser.path=dirpath      #makes sure we stay at the same path
         self.in_changeExtension.text="please insert new extension here"
         self.update_selected()
 
@@ -208,13 +208,11 @@ class MainScreen(Screen):
         self.filechooser._update_files()    #refresh the listview
         self.filechooser.selection=[]
         self.in_selected.text=""
+        #regex filter , used as callback function for the filechooser filter
     def Filter(self, folder, name):
         if re.findall(self.filter_in.text,name) !=[]:
             return True
         return False
-
-def main():
-    pass
 
 if __name__ == '__main__':
     GUI().run()

@@ -148,7 +148,7 @@ class MainScreen(Screen):
         self.filechooser._update_files()    #refresh the listview
         self.filechooser.path=dirpath
         self.in_addExtension.text="please insert new extansion here"
-        self.update_selected()
+        self.update_selected()      #update selected files in textinput
     def Copy(self):
         newPath=self.in_copy.text
         #if the path isn't valid
@@ -157,7 +157,7 @@ class MainScreen(Screen):
             return
         collection =self.filechooser.selection
         if len(collection)==0:return
-        if collection[0]==dirpath:collection=collection[1:]
+        if collection[0]==self.filechooser.path:collection=collection[1:]
         for path in collection:
             name = path[path.rfind("\\")+1:]    #extracts name from path
             npath=newPath+"\\"+name
@@ -172,6 +172,7 @@ class MainScreen(Screen):
                     i+=1
                     npath+="("+str(i)+")"
             copyfile(path,npath)
+        self.filechooser._update_files()    #refresh the listview
         #note: should go to the new path or not ?
     def CheckDelete(self):
         pass

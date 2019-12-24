@@ -20,6 +20,9 @@ WindowManager:
     filter_in:filter_in
     filechooser:filechooser
     in_selected:in_selected
+    in_changeExtension:in_changeExtension
+    in_addExtension:in_addExtension
+    in_copy:in_copy
     MyLayout:
         rows: 2
         cols:2
@@ -30,11 +33,10 @@ WindowManager:
             MyFileChooser:
                 id: filechooser
                 multiselect: True
-                dirselect: True
                 size_hint:1,1
                 background_color: 0,0,0,1
                 pos_hint : {"top":1 ,"left":1}
-                on_submit : root.update_selected()
+                on_selection : root.update_selected()
         GridLayout:
             cols:1
             pos_hint:{"right":1,"top":1}
@@ -42,11 +44,29 @@ WindowManager:
             spacing: 15
             padding: 15
             Button:
-                text: "A"
+                text: "Change extansion"
+                on_release: root.ChangeExtansion()
+            TextInput:
+                id: in_changeExtension
+                multiline: False
+                text: "please insert new extansion here"
             Button:
-                text: "B"
+                text: "Add extansion"
+                on_release: root.AddExtansion()
+            TextInput:
+                id: in_addExtension
+                multiline: False
+                text: "please insert new extansion here"
             Button:
-                text: "C"
+                text: "Copy"
+                on_release: root.Copy()
+            TextInput:
+                id: in_copy
+                multiline: False
+                text: "please insert path here"
+            Button:
+                text: "Delete"
+                on_release: root.CheckDelete()
         GridLayout:
             cols:3
             padding: 10
@@ -58,6 +78,7 @@ WindowManager:
                 size_hint_x:0.1
                 text: "path:"
             TextInput:
+                multiline: False
                 id : path_in
                 text : filechooser.path
             submitButton:
@@ -66,6 +87,7 @@ WindowManager:
                 size_hint_x:0.1
                 text: "filter:"
             TextInput:
+                multiline: False
                 id: filter_in
             submitButton:
                 on_release: root.insert_filter()
@@ -73,6 +95,7 @@ WindowManager:
                 size_hint_x:0.1
                 text: "selected:"
             TextInput:
+                multiline: False
                 id : in_selected
             submitButton:
                 on_release: root.insert_selected()

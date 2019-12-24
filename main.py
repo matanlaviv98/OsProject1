@@ -29,7 +29,7 @@ class MainScreen(Screen):
         self.filechooser=ObjectProperty(None)
         self.in_selected=ObjectProperty(None)
         self.in_changeExtension=ObjectProperty(None)
-        self.in_addExtension=ObjectProperty(None)
+        self.in_addPrefix=ObjectProperty(None)
         self.in_copy=ObjectProperty(None)
     def insert_path(self):
         #takes path from textbox
@@ -60,6 +60,9 @@ class MainScreen(Screen):
         #from the working directory should be written.                 #
         ################################################################
         filesText = self.in_selected.text   #get text from textbox
+        if filesText=="":
+            self.filechooser.selection=[]
+            return
         filesList = filesText.split(',')
         collection=[]       #will contain the files names in unicode.
         for fileText in filesList:
@@ -85,7 +88,7 @@ class MainScreen(Screen):
         if collection[0]==self.filechooser.path:collection=collection[1:]
         for word in collection:#collection of chosen files
             #remove the path from the files names.
-            if word[0]=='\\':word=word[1:]  #"\\" and "/" can stand for "root"
+            if word[0]=='\\' or word[0]=='/':word=word[1:]  #"\\" and "/" can stand for "root"
             filesView+=word.replace(self.filechooser.path,"") + " , "
         filesView=filesView[:-3]#fix of the lest " , " character
         self.in_selected.text=filesView #insert the text to the textbox
@@ -122,7 +125,7 @@ class MainScreen(Screen):
         self.update_selected()
 
 
-    def AddExtansion(self):
+    def AddPrefix(self):
         #add extansion to all selected files
         collection =self.filechooser.selection
         dirpath=self.filechooser.path
@@ -130,24 +133,28 @@ class MainScreen(Screen):
         if collection[0]==dirpath:collection=collection[1:]
         for path in collection:
             pathbackup=path
-            extension=self.in_addExtension.text  #new extension
-            if extension[0]!='.':extension='.'+extension    #fix
+            prefix=self.in_addPrefix.text  #new extension
             i = 0
-            #if occupied
-            if (os.path.isfile(path+extension)):
-                path+="("+str(i)+")"
-                #if occupied
-                while (os.path.isfile(path+extension)):
+            index=path.rfind('\\')+1
+            #new file full path (including the prefix)
+
+            npath=path[:index] + prefix + path[index:]
+            if (os.path.isfile(npath)):
+                #in case it's occupied. add (0)
+                dotindex=npath.rfind('.')
+                npath+=npath[:dotindex]+"("+str(i)+")"+npath[dotindex:]
+                #if still occupied
+                while (os.path.isfile(npath)):
                     #replace older fix
-                    path=path[:path.rfind('(')]
                     i+=1
-                    path+="("+str(i)+")"
-            os.rename(pathbackup,path+extension)
+                    npath=npath[:path.rfind('(')+1]+str(i)
+                    +npath[npath.rfind(')'):]
+            os.rename(pathbackup,npath)
             #update change in collection
-            collection[collection.index(pathbackup)]=path+extension
+            collection[collection.index(pathbackup)]=npath
         self.filechooser._update_files()    #refresh the listview
         self.filechooser.path=dirpath
-        self.in_addExtension.text="please insert new extansion here"
+        self.in_addPrefix.text="please insert new prefix here"
         self.update_selected()      #update selected files in textinput
     def Copy(self):
         newPath=self.in_copy.text

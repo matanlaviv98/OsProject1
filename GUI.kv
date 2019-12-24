@@ -21,7 +21,7 @@ WindowManager:
     filechooser:filechooser
     in_selected:in_selected
     in_changeExtension:in_changeExtension
-    in_addExtension:in_addExtension
+    in_addPrefix:in_addPrefix
     in_copy:in_copy
     MyLayout:
         rows: 2
@@ -52,11 +52,11 @@ WindowManager:
                 text: "please insert new extansion here"
             Button:
                 text: "Add extansion"
-                on_release: root.AddExtansion()
+                on_release: root.AddPrefix()
             TextInput:
-                id: in_addExtension
+                id: in_addPrefix
                 multiline: False
-                text: "please insert new extansion here"
+                text: "please insert new prefix here"
             Button:
                 text: "Copy"
                 on_release: root.Copy()

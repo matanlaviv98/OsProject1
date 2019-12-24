@@ -1,6 +1,7 @@
 WindowManager:
     MainScreen:
 
+
 <BackgroundColor@Widget>
     background_color: 1, 1, 1, 1
     canvas.before:
@@ -9,30 +10,40 @@ WindowManager:
         Rectangle:
             size: self.size
             pos: self.pos
+
+
 <submitButton@Button>:
     size_hint_x:0.2
     text:"submit"
+
+#background fixes the widgets reflections.
 <MyLayout@FloatLayout+BackgroundColor>
 <MyFileChooser@FileChooserListView+BackgroundColor>
+#popup window for confirming delete function.
 <CheckDeletePopUp>:
     GridLayout:
+        size:500,300
+        #position in the popup window.
+        pos: root.x , root.y
+        cols:1
+        spacing:20
+        padding:20
         Label:
-            pos_hint: None,None
             text : "Please confirm:"
         GridLayout:
-            pos_hint: None,None
             padding:10
             spacing:10
             cols: 2
             Button:
-                size : root.size
                 text : "Agree to delete"
-                on_release: root.Delete()
+                id: Confirm
             Button:
+                id: Cancel
                 text : "Cancel"
-                on_release:root.dismiss()
+#the main screen of the program
 <MainScreen>:
     name :"main"
+    #object properties
     path_in:path_in
     filter_in:filter_in
     filechooser:filechooser
@@ -44,6 +55,7 @@ WindowManager:
         rows: 2
         cols:2
         background_color: 0,0,0,1
+        #conatins the filechooser
         BoxLayout:
             pos_hint: {"top":1}
             size_hint: 0.6,0.7
@@ -54,6 +66,8 @@ WindowManager:
                 background_color: 0,0,0,1
                 pos_hint : {"top":1 ,"left":1}
                 on_selection : root.update_selected()
+        #contain buttons and textinputs who are located
+        # right from the file chooser
         GridLayout:
             cols:1
             pos_hint:{"right":1,"top":1}
@@ -84,6 +98,7 @@ WindowManager:
             Button:
                 text: "Delete"
                 on_release: root.CheckDelete()
+        #containes all widgets who are beneath the filechooser
         GridLayout:
             cols:3
             padding: 10

@@ -5,6 +5,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 import os
+import re
 from shutil import copyfile
 
 class GUI(App):
@@ -14,13 +15,11 @@ class WindowManager(ScreenManager):
     """ manage transitions between screens and other properties """
     pass
 
-#self.filechooser.files -> list of files the fileschooser display
 #self.filechooser.selection -> list of selected files\dirs
 
 
 class CheckDeletePopUp(Widget):
     pass
-
 class MainScreen(Screen):
     def __init__(self, **kwargs):
         # IDs for kv file widgets and needed values
@@ -35,6 +34,7 @@ class MainScreen(Screen):
         self.in_changeExtension=ObjectProperty(None)
         self.in_addPrefix=ObjectProperty(None)
         self.in_copy=ObjectProperty(None)
+        self.popup=None
     def insert_path(self):
         #takes path from textbox
         path = self.path_in.text
@@ -50,14 +50,12 @@ class MainScreen(Screen):
             self.path_in.text="path does'nt exist!"
     def insert_filter(self):
         #uses kivy filechooser filter.
-        print self.filechooser.files
         if self.filter_in.text=="":
             #if its blank, there is no fiter
             self.filechooser.filters=[]
         else:
             # the character '*' represent all cheracters
-            self.filechooser.filters=["*"+self.filter_in.text+"*"]
-        print "\n"*10+str(self.filechooser.files)
+            self.filechooser.filters=[self.Filter]
     def insert_selected(self):
         ################################################################
         #insert files in the selection textbox into filechooser list   #
@@ -190,12 +188,29 @@ class MainScreen(Screen):
     def CheckDelete(self):
         #confirm that the user want to delete the selected files.
         show = CheckDeletePopUp()
-        popUpWindow=Popup(title="Confirmation",content=show,
+        #bind functions to buttons of CheckDeletePopUp.
+        show.ids["Confirm"].on_release=self.Delete
+        show.ids["Cancel"].on_release=self.CancelPopUp
+        #create popup
+        self.popup=Popup(title="Confirmation",content=show,
         size_hint=(None,None),size=(500,300))
-        popUpWindow.open()
+        self.popup.open()
+    def CancelPopUp(self):
+        #close the popup window
+        self.popup.dismiss()
     def Delete(self):
-        pass
-
+        #close popup window and delete files
+        self.popup.dismiss()
+        for path in self.filechooser.selection:
+            os.remove(path)
+        #refresh the filechooser and selection textinput and list
+        self.filechooser._update_files()    #refresh the listview
+        self.filechooser.selection=[]
+        self.in_selected.text=""
+    def Filter(self, folder, name):
+        if re.findall(self.filter_in.text,name) !=[]:
+            return True
+        return False
 
 def main():
     pass

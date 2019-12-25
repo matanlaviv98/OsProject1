@@ -214,11 +214,11 @@ class MainScreen(Screen):
         #close the popup window
         self.popup.dismiss()
     def Delete(self):
+        #close popup window and delete files
+        self.popup.dismiss()
         if len(self.filechooser.selection)==0:
             self.in_selected.text = "no files where choosen."
             return
-        #close popup window and delete files
-        self.popup.dismiss()
         for path in self.filechooser.selection:
             os.remove(path)
         #refresh the filechooser and selection textinput and list

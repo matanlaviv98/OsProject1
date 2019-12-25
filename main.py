@@ -118,8 +118,10 @@ class MainScreen(Screen):
             pathbackup=path
             index=path.find('.') #find '.' index
             path=path[:index]
+            oldExtension=path[index+1:]
             extension=self.in_changeExtension.text  #new extension
             if extension[0]!='.':extension='.'+extension    #fix
+            if oldExtension==extension:continue   #if its already the extension
             i = 0
             #if occupied
             if (os.path.isfile(path+extension)):

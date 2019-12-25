@@ -56,6 +56,7 @@ class MainScreen(Screen):
         else:
             # the character '*' represent all cheracters
             self.filechooser.filters=[self.Filter]
+        self.filechooser._update_files()    #refresh
     def insert_selected(self):
         ################################################################
         #insert files in the selection textbox into filechooser list   #
@@ -211,8 +212,8 @@ class MainScreen(Screen):
         self.filechooser._update_files()    #refresh the listview
         self.filechooser.selection=[]
         self.in_selected.text=""
-        #regex filter , used as callback function for the filechooser filter
     def Filter(self, folder, name):
+        #regex filter , used as a callback function for the filechooser filter
         if re.findall(self.filter_in.text,name) !=[]:
             return True
         return False

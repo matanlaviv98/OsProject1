@@ -49,6 +49,9 @@ class MainScreen(Screen):
             self.path_in.text="path should point into a directory!"
         else:
             self.path_in.text="path does'nt exist!"
+        #erase older choosen files
+        self.in_selected.text = ""
+        self.filechooser.selection=[]
     def insert_filter(self):
         #uses kivy filechooser filter.
         if self.filter_in.text=="":
@@ -107,7 +110,9 @@ class MainScreen(Screen):
     #changes the whole extensions of all selected files
         collection =self.filechooser.selection
         dirpath=self.filechooser.path
-        if len(collection)==0:return
+        if len(collection)==0:
+            self.in_selected.text = "no files where choosen."
+            return
         if collection[0]==dirpath:collection=collection[1:]
         for path in collection:
             pathbackup=path
@@ -138,7 +143,9 @@ class MainScreen(Screen):
         #add extension to all selected files
         collection =self.filechooser.selection
         dirpath=self.filechooser.path
-        if len(collection)==0:return
+        if len(collection)==0:
+            self.in_selected.text = "no files where choosen."
+            return
         if collection[0]==dirpath:collection=collection[1:]
         for path in collection:
             pathbackup=path
@@ -171,7 +178,9 @@ class MainScreen(Screen):
             self.in_copy.text="dir doesn't exist! please insert path here"
             return
         collection =self.filechooser.selection
-        if len(collection)==0:return
+        if len(collection)==0:
+            self.in_selected.text = "no files where choosen."
+            return
         if collection[0]==self.filechooser.path:collection=collection[1:]
         for path in collection:
             name = path[path.rfind("\\")+1:]    #extracts name from path
@@ -205,6 +214,9 @@ class MainScreen(Screen):
         #close the popup window
         self.popup.dismiss()
     def Delete(self):
+        if len(self.filechooser.selection)==0:
+            self.in_selected.text = "no files where choosen."
+            return
         #close popup window and delete files
         self.popup.dismiss()
         for path in self.filechooser.selection:

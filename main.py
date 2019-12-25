@@ -18,7 +18,6 @@ class WindowManager(ScreenManager):
 
 #self.filechooser.selection -> list of selected files\dirs
 
-
 class CheckDeletePopUp(Widget):
     pass
 class MainScreen(Screen):

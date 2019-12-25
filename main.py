@@ -10,6 +10,7 @@ from shutil import copyfile
 
 class GUI(App):
     def build(self):
+        self.title="OSHW1"  #title of software.
         return Builder.load_file("GUI.kv")
 class WindowManager(ScreenManager):
     """ manage transitions between screens and other properties """
@@ -214,7 +215,8 @@ class MainScreen(Screen):
         self.in_selected.text=""
     def Filter(self, folder, name):
         #regex filter , used as a callback function for the filechooser filter
-        if re.findall(self.filter_in.text,name) !=[]:
+        name=name.replace(folder,"")
+        if re.search(self.filter_in.text,name) !=None:
             return True
         return False
 if __name__ == '__main__':

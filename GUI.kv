@@ -74,27 +74,27 @@ WindowManager:
             size_hint: 0.4,0.7
             spacing: 15
             padding: 15
-            Button:
-                text: "Change extension"
-                on_release: root.Changeextension()
             TextInput:
                 id: in_changeExtension
                 multiline: False
                 text: "please insert new extension here"
             Button:
-                text: "Add prefix"
-                on_release: root.AddPrefix()
+                text: "Change extension"
+                on_release: root.Changeextension()
             TextInput:
                 id: in_addPrefix
                 multiline: False
                 text: "please insert new prefix here"
             Button:
-                text: "Copy"
-                on_release: root.Copy()
+                text: "Add prefix"
+                on_release: root.AddPrefix()
             TextInput:
                 id: in_copy
                 multiline: False
                 text: "please insert path here"
+            Button:
+                text: "Copy"
+                on_release: root.Copy()
             Button:
                 text: "Delete"
                 on_release: root.CheckDelete()
